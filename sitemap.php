@@ -37,6 +37,7 @@ class SitemapPlugin extends Plugin
     protected $ignore_external = true;
     protected $ignore_protected = true;
     protected $ignore_redirect = true;
+    protected $language_remap = [];
 
     protected $news_route = null;
 
@@ -136,6 +137,7 @@ class SitemapPlugin extends Plugin
             $this->ignore_external = $this->config->get('plugins.sitemap.ignore_external');
             $this->ignore_protected = $this->config->get('plugins.sitemap.ignore_protected');
             $this->ignore_redirect = $this->config->get('plugins.sitemap.ignore_redirect');
+            $this->language_remap = $this->config->get('plugins.sitemap.language_remap');
 
             // Gather data for all languages
             foreach ($languages as $lang) {
@@ -160,9 +162,15 @@ class SitemapPlugin extends Plugin
                         $entry->setData($data);
                         if ($language->enabled()) {
                             foreach ($route_data as $l => $l_data) {
-                                $entry->addHreflangs(['hreflang' => $l, 'href' => $l_data['location']]);
+                                if(!isset($this->language_remap[$l])) {
+                                    $entry->addHreflangs(['hreflang' => $l, 'href' => $l_data['location']]);
+                                } else {
+                                    $entry->addHreflangs(['hreflang' => $l, 'href' => str_replace(str_replace($l_data['location'], "devel.peaknetworks.net", $this->language_remap[$l]), $l . "/", "" ]);
+                                }
                                 if ($include_default_lang === false && $l == $default_lang) {
-                                    $entry->addHreflangs(['hreflang' => 'x-default', 'href' => $l_data['location']]);
+                                    if(!isset($this->language_remap[$l])) {
+                                        $entry->addHreflangs(['hreflang' => 'x-default', 'href' => $l_data['location']]);
+                                    }
                                 }
                             }
                         }

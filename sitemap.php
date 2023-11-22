@@ -165,7 +165,7 @@ class SitemapPlugin extends Plugin
                                 if(!isset($this->language_remap[$l])) {
                                     $entry->addHreflangs(['hreflang' => $l, 'href' => $l_data['location']]);
                                 } else {
-                                    $entry->addHreflangs(['hreflang' => $l, 'href' => str_replace(str_replace($l_data['location'], "devel.peaknetworks.net", $this->language_remap[$l]), $l . "/", "" ]));
+                                    $entry->addHreflangs(['hreflang' => $l, 'href' => str_replace(str_replace($l_data['location'], "devel.peaknetworks.net", $this->language_remap[$l]), $l . "/", "" )]);
                                 }
                                 if ($include_default_lang === false && $l == $default_lang) {
                                     if(!isset($this->language_remap[$l])) {

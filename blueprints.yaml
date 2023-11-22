@@ -8,7 +8,7 @@ author:
   name: Team Grav
   email: devs@getgrav.org
   url: http://getgrav.org
-homepage: https://github.com/getgrav/grav-plugin-sitemap
+homepage: https://github.com/StefanKuh/grav-plugin-sitemap
 keywords: sitemap, plugin, xml, map, index
 bugs: https://github.com/getgrav/grav-plugin-sitemap/issues
 license: MIT
@@ -116,6 +116,14 @@ form:
       help: PLUGIN_SITEMAP.IGNORES_HELP
       value_only: true
       placeholder_value: '/ignore-this-route'
+
+    language_remap:
+      type: array
+      label: PLUGIN_SITEMAP.LANGUAGE_REMAP
+      help: PLUGIN_SITEMAP.LANGUAGE_REMAP_HELP
+      value_only: false
+      placeholder_key: 'de-de'
+      placeholder_value: 'www.test.de'
 
     news_section:
       type: section

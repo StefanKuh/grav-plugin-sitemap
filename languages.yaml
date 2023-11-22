@@ -28,6 +28,8 @@ en:
     IGNORE_PROTECTED_HELP: 'Ignore pages that custom "access" set to protect them via a login'
     IGNORE_REDIRECT: 'Ignore Redirect Pages'
     IGNORE_REDIRECT_HELP: 'Ignores pages that have a custom "redirect" entry in the header'
+    LANGUAGE_REMAP: 'Multi-Lang Domain Remapping'
+    LANGUAGE_REMAP_HELP: 'Rewrite the href-lang url to the speciefied domain'
     URLSET: 'URLSet'
     URLSET_HELP: 'The URLSet XML Namespace'
     URLIMAGESET: 'URLImageSet'

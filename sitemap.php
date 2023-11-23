@@ -141,10 +141,12 @@ class SitemapPlugin extends Plugin
 
             // Gather data for all languages
             foreach ($languages as $lang) {
-                $language->init();
-                $language->setActive($lang);
-                $pages->reset();
-                $this->addRouteData($pages, $lang);
+		if($lang == $active_lang) {
+			$language->init();
+			$language->setActive($lang);
+			$pages->reset();
+			$this->addRouteData($pages, $lang);
+		}
             }
 
             // Reset back to active language
@@ -161,18 +163,6 @@ class SitemapPlugin extends Plugin
                         $entry = new SitemapEntry();
                         $entry->setData($data);
                         if ($language->enabled()) {
-                            foreach ($route_data as $l => $l_data) {
-                                if(!isset($this->language_remap[$l])) {
-                                    $entry->addHreflangs(['hreflang' => $l, 'href' => $l_data['location']]);
-                                } else {
-                                    $entry->addHreflangs(['hreflang' => $l, 'href' => str_replace(str_replace($l_data['location'], "devel.peaknetworks.net", $this->language_remap[$l]), $l . "/", "" )]);
-                                }
-                                if ($include_default_lang === false && $l == $default_lang) {
-                                    if(!isset($this->language_remap[$l])) {
-                                        $entry->addHreflangs(['hreflang' => 'x-default', 'href' => $l_data['location']]);
-                                    }
-                                }
-                            }
                         }
                         $this->sitemap[$data['url']] = $entry;
                     }

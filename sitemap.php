@@ -141,12 +141,10 @@ class SitemapPlugin extends Plugin
 
             // Gather data for all languages
             foreach ($languages as $lang) {
-		if($lang == $active_lang) {
-			$language->init();
-			$language->setActive($lang);
-			$pages->reset();
-			$this->addRouteData($pages, $lang);
-		}
+                $language->init();
+                $language->setActive($lang);
+                $pages->reset();
+                $this->addRouteData($pages, $lang);
             }
 
             // Reset back to active language

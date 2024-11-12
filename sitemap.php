@@ -158,11 +158,31 @@ class SitemapPlugin extends Plugin
 
             // Build sitemap
             foreach ($languages as $lang) {
+
+                // Skip all other languages
+                if($lang !== $active_lang) {
+                    continue;
+                }
+
                 foreach($this->route_data as $route => $route_data) {
                     if ($data = $route_data[$lang] ?? null) {
                         $entry = new SitemapEntry();
                         $entry->setData($data);
                         if ($language->enabled()) {
+                            foreach ($route_data as $l => $l_data) {
+                                if(!isset($this->language_remap[$l])) {
+                                    $entry->addHreflangs(['hreflang' => $l, 'href' => $l_data['location']]);
+                                } else {
+                                    if($l == $active_lang) {
+                                        $entry->addHreflangs(['hreflang' => $l, 'href' => $l_data['location']]);
+                                    } else {
+                                        $entry->addHreflangs(['hreflang' => $l, 'href' => $this->replace_url($l_data['location'], $l, $this->language_remap[$l])]);
+                                    }
+                                }
+                                if ($include_default_lang === false && $l == $default_lang) {
+                                    $entry->addHreflangs(['hreflang' => 'x-default', 'href' => $l_data['location']]);
+                                }
+                            }
                         }
                         $this->sitemap[$data['url']] = $entry;
                     }
@@ -181,6 +201,12 @@ class SitemapPlugin extends Plugin
         }
 
         $this->grav->fireEvent('onSitemapProcessed', new Event(['sitemap' => &$this->sitemap]));
+    }
+
+    public function replace_url($url, $lang, $remap)
+    {
+        $host = parse_url($url)['host'];
+        return str_replace("/" . $lang . "/", "/", str_replace($host, $remap, $url));
     }
 
     public function onPageInitialized($event)
